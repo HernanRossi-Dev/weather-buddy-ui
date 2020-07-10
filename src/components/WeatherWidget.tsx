@@ -2,54 +2,41 @@ import React, { useEffect, useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
-import { Sunny, PartlyCloudy, SunShower, Cloudy, Rainy, Windy, Snowy } from './weather'
 import { Typography } from '@material-ui/core'
 import { WeatherCard } from '../styles/StyledComponents'
 import { IWeatherCurrent, IWeatherMain } from '../interfaces/Weather'
-import { Mist } from './weather/MIst'
+import { setHeight } from './weather/WeatherElement'
 
 interface WeatherWidgetProps {
   text: string
   lat?: number
   lng?: number
-  currentWeather: IWeatherCurrent
-}
-interface WeatherMap {
-  [key: string]: JSX.Element
-}
-const weatherMap: WeatherMap = {
-  'Clear': <Sunny height={75} width={75} />,
-  'Clouds': <Cloudy height={75} width={75} />,
-  'Snow': <Snowy height={75} width={75} />,
-  'Rain': <Rainy height={75} width={75} />,
-  'Drizzle': <SunShower height={75} width={75} />,
-  'light rain': <SunShower height={75} width={75} />,
-  'Squall': <Windy height={75} width={75} />,
-  'Mist': <Mist height={75} width={75} />,
-  'Haze': <Mist height={75} width={75} />,
-  'Smoke': <Mist height={75} width={75} />,
-  'Dust': <Mist height={75} width={75} />,
-  'Fog': <Mist height={75} width={75} />,
-  'Ash': <Mist height={75} width={75} />,
-  'few clouds': <PartlyCloudy height={75} width={75} />,
-  'scattered clouds': <PartlyCloudy height={75} width={75} />,
+  weatherData: IWeatherCurrent
 }
 
-const WeatherWidget = ({ text, currentWeather }: WeatherWidgetProps) => {
+const WeatherWidget = ({ text, weatherData }: WeatherWidgetProps) => {
   const [currentTemp, setCurrentTemp] = useState(0)
   const [currentWind, setCurrentWind] = useState(0)
   const [humidity, setHumidity] = useState(0)
   const [currentMain, setCurrentMain] = useState<IWeatherMain | null>(null)
+  const [icon, setIcon] = useState<JSX.Element | null>(null)
 
   useEffect(() => {
-    const currTemp: number = parseFloat((currentWeather.temp - 273.15).toPrecision(3))
-    const currWind: number = parseFloat((currentWeather.wind_speed * 3.6).toPrecision(3))
-    const humidity: number = currentWeather.humidity
+    const currTemp: number = parseFloat((weatherData.temp - 273.15).toPrecision(3))
+    const currWind: number = parseFloat((weatherData.wind_speed * 3.6).toPrecision(3))
+    const humidity: number = weatherData.humidity
+    const mainWeatherDetails = weatherData.weather[0]
+    const getWeatherElement = setHeight(75, 75)
+    if (mainWeatherDetails) {
+      const iconVisuals = getWeatherElement(mainWeatherDetails)
+      setIcon(iconVisuals)
+    }
+
     setCurrentTemp(currTemp)
     setCurrentWind(currWind)
     setHumidity(humidity)
-    setCurrentMain(currentWeather.weather[0])
-  }, [currentWeather])
+    setCurrentMain(weatherData.weather[0])
+  }, [weatherData])
 
   return (
     <WeatherCard>
@@ -57,7 +44,7 @@ const WeatherWidget = ({ text, currentWeather }: WeatherWidgetProps) => {
         <CardHeader
           avatar={
             <div style={{ marginRight: '-20px' }}>
-              {currentMain ? weatherMap[currentMain.description as keyof WeatherMap] || weatherMap[currentMain.main as keyof WeatherMap] : null}
+              {icon}
             </div>
           }
           title={
@@ -66,7 +53,7 @@ const WeatherWidget = ({ text, currentWeather }: WeatherWidgetProps) => {
             </Typography>}
           subheader={
             <Typography variant="h6" color="textSecondary" component="p">
-              <strong>{currentTemp}{'\u00b0'}C</strong><br/>
+              <strong>{currentTemp}{'\u00b0'}C</strong><br />
             </Typography>}
           style={{ marginTop: '-20px', marginBottom: '-40px' }}
         />
@@ -83,7 +70,3 @@ const WeatherWidget = ({ text, currentWeather }: WeatherWidgetProps) => {
 }
 
 export default WeatherWidget
-
-
-
-

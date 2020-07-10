@@ -5,7 +5,11 @@ export const StyledAppContainer = styled.div`
   background-color: #fffff;
   height: 100%;
   width: 100%;
-  flex-grow: 1;
+`
+export const StyledSideContainer = styled.div`
+  background-color: #fffff;
+  height: 100%;
+  width: 100%;
 `
 
 export const StyledMapContainer = styled.div`
@@ -13,7 +17,6 @@ export const StyledMapContainer = styled.div`
   height: 100%;
   margin: auto;
 `
-
 export const WeatherCard = styled.div`
   width: 210px;
   height: 68px;
@@ -23,6 +26,21 @@ export const WeatherCard = styled.div`
   position: relative;
   left: -100px;
   top: -100px;
+`
+export const TimerCard = styled.div`
+  width: 220px;
+  height: 30px;
+  background: white;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 5px 5px 0 0;
+`
+export const WeatherForecastCard = styled.div`
+  width: 95%;
+  height: 100%;
+  background: white;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 5px 5px 0 0;
+  margin: auto;
 `
 export const LabelContainer = styled.div`
   padding: 2px 16px;

@@ -3,16 +3,25 @@ import axios from 'axios'
 import { AppState } from "../interfaces/ContextInterface"
 import { Action } from "../types/AppContextTypes"
 import { IWeatherData } from "../interfaces/Weather"
+import { useInterval } from "../utils/UseInterval"
 
 const appData: AppState = {
   weatherData: undefined,
+  forecastIndex: 0
 }
 
 const appStateReducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
     case "SET_WEATHER_DATA": {
       return {
+        ...state,
         weatherData: action.payload
+      }
+    }
+    case "SET_FORECAST_INDEX": {
+      return {
+        ...state,
+        forecastIndex: action.payload
       }
     }
   }
@@ -34,7 +43,6 @@ export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
 
   useInterval(() => {
     async function getWeather() {
-      console.log("Refresh data in context")
       try {
         const url = `${process.env.REACT_APP_API_URL}api/weather`
         const result = await axios.get(url)
@@ -50,9 +58,23 @@ export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
       }
     }
     getWeather()
-    //Poll api every half hour
-  // }, 10000);
-  }, 1800000);
+    //Poll every 5 minutes
+  }, 300000);
+
+  //rotate forecast
+  useInterval(() => {
+    if (!state.weatherData) return
+    let currentIndex = state.forecastIndex + 1
+    const cityCount = state.weatherData.length
+    if (currentIndex >= cityCount) {
+      currentIndex = 0
+    }
+    dispatch({
+      type: "SET_FORECAST_INDEX",
+      payload: currentIndex
+    })
+    //Poll every 10 seconds
+  }, 20000);
 
   const [state, dispatch] = useReducer(appStateReducer, localState)
 
@@ -69,21 +91,4 @@ export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
 
 export const useAppState = () => {
   return useContext(AppStateContext)
-}
-
-function useInterval(callback: any, delay: number) {
-  const savedCallback = useRef(() => {});
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
 }

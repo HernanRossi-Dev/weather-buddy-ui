@@ -1,9 +1,10 @@
 import React from 'react'
 import GoogleMap from 'google-map-react'
 import WeatherWidget from './WeatherWidget'
-import { LoadingContainer, LogoLoading, StyledMapContainer } from '../styles/StyledComponents'
-
+import { LoadingContainer, LogoLoading, StyledMapContainer, WeatherCard } from '../styles/StyledComponents'
 import { IWeatherData } from '../interfaces/Weather'
+import { TIMER_COORDS } from '../constants/locationCoordinates'
+import { TimerComponent } from './TimerComponent'
 
 interface MapProps {
   center: {
@@ -23,9 +24,8 @@ const mapOptions = {
   draggableCursor: 'default',
 }
 export const RenderMap = ({ zoom, center, weatherData, isLoading }: MapProps) => {
-
+  
   const API_KEY = process.env.REACT_APP_MAPS_API_URL || ''
-  console.log("IN render: ", weatherData)
   const loading = () => {
     if (isLoading || !weatherData) {
       return (
@@ -42,16 +42,17 @@ export const RenderMap = ({ zoom, center, weatherData, isLoading }: MapProps) =>
             lng={cityWeather.lon}
             text={cityWeather.name}
             key={index}
-            currentWeather={cityWeather.current}
+            weatherData={cityWeather.current}
           />
-        )}
+        )
+      }
       ))
   }
 
+  const { lat, lng } = TIMER_COORDS
   return (
     <StyledMapContainer>
       <GoogleMap
-        //Add this key to .env and restrict access to it
         bootstrapURLKeys={{ key: API_KEY }}
         defaultCenter={center}
         defaultZoom={zoom}
@@ -60,6 +61,7 @@ export const RenderMap = ({ zoom, center, weatherData, isLoading }: MapProps) =>
         distanceToMouse={(x, y) => 0}
       >
         {loading()}
+        <TimerComponent lat={lat} lng={lng} />
       </GoogleMap>
     </StyledMapContainer>
   )

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Grid, Paper } from '@material-ui/core'
 import { RenderMap } from './RenderMap'
 import { BC_CENTER } from '../constants/locationCoordinates'
-import { StyledAppContainer } from '../styles/StyledComponents'
+import { StyledAppContainer, StyledSideContainer } from '../styles/StyledComponents'
 import Logo from '../assets/Sun.png'
 import { IWeatherData, IWeatherForecast } from '../interfaces/Weather'
 import { useAppState } from '../context/AppStateContext'
@@ -14,11 +14,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  paper: {
-    padding: theme.spacing(2),
+  paperTitle: {
     textAlign: 'center',
     color: theme.palette.text.secondary,
     fontSize: '25px',
+  },
+  paperForecast: {
+    textAlign: 'left',
+    color: theme.palette.text.secondary,
+    height: 'fit-content',
+    paddingBottom: '15px'
   },
 }))
 
@@ -31,16 +36,14 @@ export const MapContainer = () => {
   const [weatherData, setWeatherData] = useState<Array<IWeatherData> | undefined>(undefined)
   const [forecastData, setforecastData] = useState<Array<IWeatherForecast> | undefined>(undefined)
   const [forecastCity, setforecastCity] = useState('')
-  const [displayIndex, setDisplayIndex] = useState(0)
 
   useEffect(() => {
     setLoading(true)
     async function launch() {
-      const url = `${process.env.REACT_APP_API_URL}api/weather`
       if (state.weatherData) {
         setWeatherData(state.weatherData)
       } else {
-        console.log("Refresh data")
+        const url = `${process.env.REACT_APP_API_URL}api/weather`
         const result = await axios.get(url)
         if (!result) return
         const data = result.data.data as Array<IWeatherData>
@@ -54,44 +57,43 @@ export const MapContainer = () => {
       setLoading(false)
     }
     launch()
-  }, []);
+  });
 
   useEffect(() => {
-    if(!weatherData) return
-    const forecast = weatherData[0].daily
-    const forecastCity = weatherData[0].name
+    if (!state.weatherData) return
+    const { forecastIndex } = state
+    const forecast = state.weatherData[forecastIndex].daily
+    const forecastCity = state.weatherData[forecastIndex].name
     setforecastCity(forecastCity)
     setforecastData(forecast)
-  }, [weatherData])
+  })
 
   return (
-    <StyledAppContainer>
-      <Grid container spacing={0} direction="row" style={{ height: "100%" }} >
-        <Grid item xs={9} lg={9} xl={9} >
-          <RenderMap
-            center={BC_CENTER}
-            zoom={DEFAULT_ZOOM}
-            weatherData={weatherData}
-            isLoading={loading}
-          />
+    <div style={{ width: '99%', margin: 'auto', height: '100%' }}>
+      <Grid container spacing={1} direction="row" style={{ height: '100%' }} >
+        <Grid item xs={8} sm={8} lg={8} xl={9} >
+          <StyledAppContainer>
+            <RenderMap
+              center={BC_CENTER}
+              zoom={DEFAULT_ZOOM}
+              weatherData={weatherData}
+              isLoading={loading}
+            />
+          </StyledAppContainer>
         </Grid>
-        <Grid item xs lg xl >
-          <Grid container spacing={2} direction="column" style={{ width: '100%', margin: 'auto', height: '100%' }}>
-            <Grid item xs lg xl style={{ width: '100%', margin: 'auto', height: '100%' }}>
-              <Paper className={classes.paper}>
-                <strong>North Coast Pizza </strong><br />
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '20px', marginTop: '-10px', marginBottom: '-10px' }}>
-                  Weather <img src={Logo} style={{ height: '100px', width: '100px' }} /> Buddy</div>
-              </Paper>
-            </Grid>
-            <Grid item xs={10} lg={10} xl={10} >
-              <Paper className={classes.paper} style={{ width: '100%', margin: 'auto', height: '100%' }}>
-               <Forecast forecastData={forecastData} cityName={forecastCity}/>
-              </Paper>
-            </Grid>
-          </Grid>
+        <Grid item xs sm lg xl >
+          <StyledSideContainer>
+            <Paper className={classes.paperTitle} >
+              <strong>North Coast Pizza </strong><br />
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '20px' }}>
+                Weather <img src={Logo} style={{ height: '25%', width: '25%' }} /> Buddy</div>
+            </Paper >
+            <Paper className={classes.paperForecast}  >
+              <Forecast forecastData={forecastData} cityName={forecastCity} />
+            </Paper>
+          </StyledSideContainer>
         </Grid>
       </Grid>
-    </StyledAppContainer>
+    </div >
   )
 }
