@@ -10,7 +10,7 @@ export interface WeatherComponentProps {
   width: number
 }
 
-type Temp = {
+interface Temp {
   day: number
   eve: number
   max: number
@@ -19,11 +19,11 @@ type Temp = {
   night: number
 }
 
-interface IWeatherBase {
+export interface IWeatherBase {
   feels_like: number | Array<number>
-  temp: number | Array<Temp>
+  temp: number | Temp
 }
-export interface IWeatherCurrent extends IWeatherBase{
+export interface IWeatherCurrent extends IWeatherBase {
   clouds: number
   dew_point: number
   dt: number
@@ -43,7 +43,7 @@ export interface IWeatherCurrent extends IWeatherBase{
 export interface IWeatherForecast extends IWeatherBase {
   dateTime: string
   feels_like: Array<number>
-  temp: Array<Temp>
+  temp: Temp
   clouds: number
   dew_point: number
   dt: number

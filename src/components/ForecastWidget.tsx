@@ -5,14 +5,11 @@ import CardHeader from '@material-ui/core/CardHeader'
 import { Sunny, PartlyCloudy, SunShower, Cloudy, Rainy, Windy, Snowy } from './weather'
 import { Typography } from '@material-ui/core'
 import { WeatherCard } from '../styles/StyledComponents'
-import { IWeatherCurrent, IWeatherMain } from '../interfaces/Weather'
+import { IWeatherForecast, IWeatherMain } from '../interfaces/Weather'
 import { Mist } from './weather/MIst'
 
-interface WeatherWidgetProps {
-  text: string
-  lat?: number
-  lng?: number
-  currentWeather: IWeatherCurrent
+interface ForecastWidgetProps {
+  weather: IWeatherForecast
 }
 interface WeatherMap {
   [key: string]: JSX.Element
@@ -35,21 +32,24 @@ const weatherMap: WeatherMap = {
   'scattered clouds': <PartlyCloudy height={75} width={75} />,
 }
 
-const WeatherWidget = ({ text, currentWeather }: WeatherWidgetProps) => {
-  const [currentTemp, setCurrentTemp] = useState(0)
+const ForecastWidget = ({ weather }: ForecastWidgetProps) => {
+  const [maxTemp, setMaxTemp] = useState(0)
+  const [minTemp, setMinTemp] = useState(0)
   const [currentWind, setCurrentWind] = useState(0)
   const [humidity, setHumidity] = useState(0)
   const [currentMain, setCurrentMain] = useState<IWeatherMain | null>(null)
 
   useEffect(() => {
-    const currTemp: number = parseFloat((currentWeather.temp - 273.15).toPrecision(3))
-    const currWind: number = parseFloat((currentWeather.wind_speed * 3.6).toPrecision(3))
-    const humidity: number = currentWeather.humidity
-    setCurrentTemp(currTemp)
+    const maxTemp: number = parseFloat((weather.temp.max - 273.15).toPrecision(3))
+    const minTemp: number = parseFloat((weather.temp.min - 273.15).toPrecision(3))
+    const currWind: number = parseFloat((weather.wind_speed * 3.6).toPrecision(3))
+    const humidity: number = weather.humidity
+    setMaxTemp(maxTemp)
+    setMinTemp(minTemp)
     setCurrentWind(currWind)
     setHumidity(humidity)
-    setCurrentMain(currentWeather.weather[0])
-  }, [currentWeather])
+    setCurrentMain(weather.weather[0])
+  }, [weather])
 
   return (
     <WeatherCard>
@@ -62,11 +62,12 @@ const WeatherWidget = ({ text, currentWeather }: WeatherWidgetProps) => {
           }
           title={
             <Typography variant="body1" color="textSecondary" component="p">
-              <strong>{text}</strong>
+              <strong>{weather.dateTime}</strong>
             </Typography>}
           subheader={
-            <Typography variant="h6" color="textSecondary" component="p">
-              <strong>{currentTemp}{'\u00b0'}C</strong><br/>
+            <Typography variant="body1" color="textSecondary" component="p">
+              Max: <strong>{maxTemp}{'\u00b0'}C</strong><br/>
+              Min: <strong>{minTemp}{'\u00b0'}C</strong><br/>
             </Typography>}
           style={{ marginTop: '-20px', marginBottom: '-40px' }}
         />
@@ -82,7 +83,7 @@ const WeatherWidget = ({ text, currentWeather }: WeatherWidgetProps) => {
   )
 }
 
-export default WeatherWidget
+export default ForecastWidget
 
 
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import GoogleMap from 'google-map-react'
 import WeatherWidget from './WeatherWidget'
-import { CITY_LOCATIONS } from '../constants/locationCoordinates'
 import { LoadingContainer, LogoLoading, StyledMapContainer } from '../styles/StyledComponents'
 
 import { IWeatherData } from '../interfaces/Weather'

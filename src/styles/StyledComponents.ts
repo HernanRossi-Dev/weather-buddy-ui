@@ -5,6 +5,7 @@ export const StyledAppContainer = styled.div`
   background-color: #fffff;
   height: 100%;
   width: 100%;
+  flex-grow: 1;
 `
 
 export const StyledMapContainer = styled.div`

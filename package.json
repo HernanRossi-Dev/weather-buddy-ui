@@ -21,6 +21,7 @@
     "react-full-screen": "^0.2.4",
     "react-open-weather": "^0.6.2",
     "react-scripts": "3.4.1",
+    "react-useinterval": "^1.0.1",
     "styled-components": "^5.1.1",
     "typescript": "~3.7.2"
   },
