@@ -7,7 +7,8 @@ import { useInterval } from "../utils/UseInterval"
 
 const appData: AppState = {
   weatherData: undefined,
-  forecastIndex: 0
+  forecastIndex: 0,
+  dataSetTime: new Date()
 }
 
 const appStateReducer = (state: AppState, action: Action): AppState => {
@@ -16,6 +17,7 @@ const appStateReducer = (state: AppState, action: Action): AppState => {
       return {
         ...state,
         weatherData: action.payload,
+        dataSetTime: new Date()
       }
     }
     case "SET_FORECAST_INDEX": {
@@ -35,15 +37,15 @@ interface AppStateContextProps {
 }
 
 export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
-  // const persistedState = localStorage.getItem("state")
+  const persistedState = localStorage.getItem("state")
   let localState = appData
-  // if (persistedState) {
-  //   localState = JSON.parse(persistedState)
-  // }
+  if (persistedState) {
+    localState = JSON.parse(persistedState)
+  }
   const [state, dispatch] = useReducer(appStateReducer, localState)
-  // useEffect(() => {
-  //   localStorage.setItem("state", JSON.stringify(state));
-  // }, [state]);
+  useEffect(() => {
+    localStorage.setItem("state", JSON.stringify(state));
+  }, [state]);
 
   useInterval(() => {
     async function getWeather() {

@@ -60,7 +60,11 @@ export const MapContainer = () => {
   useEffect(() => {
     setLoading(true)
     async function launch() {
-      if (state && state.weatherData) {
+      const currentTime = new Date()
+      const setDataTime = new Date(state.dataSetTime)
+      const dataAge = Math.abs(currentTime.getTime() - setDataTime.getTime())
+      const dataAgeMinutes = Math.round(dataAge / 60000)
+      if (state && state.weatherData && dataAgeMinutes < 30) {
         setWeatherData(state.weatherData)
       } else {
         const url = `${process.env.REACT_APP_API_URL}api/weather`
