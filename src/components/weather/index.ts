@@ -5,7 +5,7 @@ import { Cloudy } from './Cloudy'
 import { Snowy } from './Snowy'
 import { Rainy } from './Rainy'
 import { Windy } from './Windy'
-import { Mist } from './Mist'
+import { Misty } from './Misty'
 
 export {
   SunShower,
@@ -15,5 +15,5 @@ export {
   Snowy,
   Rainy,
   Windy,
-  Mist
+  Misty
 }

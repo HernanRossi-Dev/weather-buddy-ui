@@ -3,7 +3,7 @@ import { WeatherComponentProps } from '../../interfaces/Weather'
 import '../../styles/Weather.scss'
 
 // All credit for this css weather animation goes to Tuan Hoang https://codepen.io/code4food
-export const Mist = ({ height, width }: WeatherComponentProps) => {
+export const Misty = ({ height, width }: WeatherComponentProps) => {
   return (
     <svg style={{ height: `${height}px`, width: `${width}px` }} viewBox="0 0 220 220">
       <g className="small-cloud">
