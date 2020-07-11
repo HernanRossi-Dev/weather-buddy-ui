@@ -15,7 +15,7 @@ const appStateReducer = (state: AppState, action: Action): AppState => {
     case "SET_WEATHER_DATA": {
       return {
         ...state,
-        weatherData: action.payload
+        weatherData: action.payload,
       }
     }
     case "SET_FORECAST_INDEX": {
@@ -35,11 +35,15 @@ interface AppStateContextProps {
 }
 
 export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
-  const persistedState = localStorage.getItem("state")
+  // const persistedState = localStorage.getItem("state")
   let localState = appData
-  if (persistedState) {
-    localState = JSON.parse(persistedState)
-  }
+  // if (persistedState) {
+  //   localState = JSON.parse(persistedState)
+  // }
+  const [state, dispatch] = useReducer(appStateReducer, localState)
+  // useEffect(() => {
+  //   localStorage.setItem("state", JSON.stringify(state));
+  // }, [state]);
 
   useInterval(() => {
     async function getWeather() {
@@ -75,12 +79,6 @@ export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
     })
     //Poll every 10 seconds
   }, 20000);
-
-  const [state, dispatch] = useReducer(appStateReducer, localState)
-
-  useEffect(() => {
-    localStorage.setItem("state", JSON.stringify(state));
-  }, [state]);
 
   return (
     <AppStateContext.Provider value={{ state, dispatch }} >

@@ -40,7 +40,7 @@ export const MapContainer = () => {
   useEffect(() => {
     setLoading(true)
     async function launch() {
-      if (state.weatherData) {
+      if (state && state.weatherData) {
         setWeatherData(state.weatherData)
       } else {
         const url = `${process.env.REACT_APP_API_URL}api/weather`
@@ -60,7 +60,7 @@ export const MapContainer = () => {
   });
 
   useEffect(() => {
-    if (!state.weatherData) return
+    if (!state || !state.weatherData) return
     const { forecastIndex } = state
     const forecast = state.weatherData[forecastIndex].daily
     const forecastCity = state.weatherData[forecastIndex].name
