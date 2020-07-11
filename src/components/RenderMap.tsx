@@ -1,7 +1,7 @@
 import React from 'react'
 import GoogleMap from 'google-map-react'
 import WeatherWidget from './WeatherWidget'
-import { LoadingContainer, LogoLoading, StyledMapContainer, WeatherCard } from '../styles/StyledComponents'
+import { StyledMapContainer } from '../styles/StyledComponents'
 import { IWeatherData } from '../interfaces/Weather'
 import { TIMER_COORDS } from '../constants/locationCoordinates'
 import { TimerComponent } from './TimerComponent'
@@ -27,13 +27,7 @@ export const RenderMap = ({ zoom, center, weatherData, isLoading }: MapProps) =>
   
   const API_KEY = process.env.REACT_APP_MAPS_API_URL || ''
   const loading = () => {
-    if (isLoading || !weatherData) {
-      return (
-        <LoadingContainer >
-          <LogoLoading />
-        </LoadingContainer>
-      )
-    }
+    if (!weatherData) return null
     return (
       weatherData.map((cityWeather, index) => {
         return (
