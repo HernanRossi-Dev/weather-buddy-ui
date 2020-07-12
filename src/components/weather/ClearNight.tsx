@@ -2,11 +2,10 @@ import React from 'react'
 import { WeatherComponentProps } from '../../interfaces/Weather'
 import '../../styles/Weather.scss'
 
-// All credit for this css weather animation goes to Tuan Hoang https://codepen.io/code4food
+// Credit for base css weather animation goes to Tuan Hoang https://codepen.io/code4food
 export const ClearNight = ({ height, width }: WeatherComponentProps) => {
   return (
     <svg style={{ height: `${height}px`, width: `${width}px` }} viewBox="0 0 220 220">
-      
       <g className="moon-body">
         <path fill="#BEBEBE" d="M142.702,97.196c-7.357-18.162-28.043-26.923-46.205-19.568c-18.164,7.356-26.925,28.045-19.568,46.205
 	c7.354,18.165,28.043,26.926,46.205,19.569C141.298,136.045,150.058,115.36,142.702,97.196z M117.348,84.979

@@ -20,7 +20,7 @@ interface Temp {
 }
 
 export interface IWeatherBase {
-  feels_like: number | Array<number>
+  feels_like: number | Array<number> | FeelsLikeDaily
   temp: number | Temp
 }
 export interface IWeatherCurrent extends IWeatherBase {
@@ -38,11 +38,19 @@ export interface IWeatherCurrent extends IWeatherBase {
   weather: Array<IWeatherMain>
   wind_deg: number
   wind_speed: number
+  rain?: number
+}
+
+export interface FeelsLikeDaily {
+  day: number
+  night: number
+  eve: number
+  morn: number
 }
 
 export interface IWeatherForecast extends IWeatherBase {
   dateTime: string
-  feels_like: Array<number>
+  feels_like: Array<number> | FeelsLikeDaily
   temp: Temp
   clouds: number
   dew_point: number
@@ -52,10 +60,11 @@ export interface IWeatherForecast extends IWeatherBase {
   sunrise: number
   sunset: number
   uvi: number
-  visibility: number
+  visibility?: number
   weather: Array<IWeatherMain>
   wind_deg: number
   wind_speed: number
+  rain?: number
 }
 
 export interface IWeatherData {
@@ -64,4 +73,6 @@ export interface IWeatherData {
   lat: number
   lon: number
   name: string
+  timezone?: string
+  timezone_offset?: number
 }

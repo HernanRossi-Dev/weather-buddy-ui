@@ -69,7 +69,7 @@ export const MapContainer = () => {
       } else {
         const url = `${process.env.REACT_APP_API_URL}api/weather`
         const result = await axios.get(url)
-        if (!result) return
+        if (!result || !result.data) return
         const data = result.data.data as Array<IWeatherData>
         if (!data || data.length < 1) return
         setWeatherData(data)
@@ -123,7 +123,6 @@ export const MapContainer = () => {
           </StyledAppContainer>
         )
       }
-
     </div >
   )
 }

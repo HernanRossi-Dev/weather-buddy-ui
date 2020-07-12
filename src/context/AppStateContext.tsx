@@ -31,7 +31,7 @@ const appStateReducer = (state: AppState, action: Action): AppState => {
 
 const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps)
 
-interface AppStateContextProps {
+export interface AppStateContextProps {
   state: AppState
   dispatch: React.Dispatch<Action>
 }

@@ -13,7 +13,7 @@ interface MapProps {
   }
   zoom: number,
   weatherData?: Array<IWeatherData>
-  isLoading: boolean
+  isLoading?: boolean
 }
 
 const mapOptions = {
@@ -23,11 +23,11 @@ const mapOptions = {
   panControl: false,
   draggableCursor: 'default',
 }
-export const RenderMap = ({ zoom, center, weatherData, isLoading }: MapProps) => {
-  
+export const RenderMap = ({ zoom, center, weatherData }: MapProps) => {
+
   const API_KEY = process.env.REACT_APP_MAPS_API_URL || ''
   const loading = () => {
-    if (!weatherData) return null
+    if (!weatherData) return <div/>
     return (
       weatherData.map((cityWeather, index) => {
         return (
