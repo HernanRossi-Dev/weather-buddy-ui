@@ -12,7 +12,7 @@ interface ForecastWidgetProps {
   weatherData: IWeatherForecast
 }
 
-const ForecastWidget = ({ weatherData }: ForecastWidgetProps) => {
+const ForecastWidget = ({ weatherData }: ForecastWidgetProps) : JSX.Element => {
   const [maxTemp, setMaxTemp] = useState(0)
   const [minTemp, setMinTemp] = useState(0)
   const [windSpeed, setWindSpeed] = useState(0)

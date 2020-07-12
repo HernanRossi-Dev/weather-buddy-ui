@@ -6,7 +6,6 @@ import { Typography } from '@material-ui/core'
 import { WeatherCard } from '../styles/StyledComponents'
 import { IWeatherCurrent, IWeatherMain } from '../interfaces/Weather'
 import { setHeight } from './weather/WeatherElement'
-import { useAppState } from '../context/AppStateContext'
 import { useInterval } from '../utils/UseInterval'
 
 interface WeatherWidgetProps {
@@ -17,8 +16,7 @@ interface WeatherWidgetProps {
   zoom?: number
 }
 
-const WeatherWidget = ({ text, weatherData, zoom }: WeatherWidgetProps) => {
-  const { state } = useAppState()
+const WeatherWidget = ({ text, weatherData, zoom }: WeatherWidgetProps): JSX.Element => {
   const [currentTemp, setCurrentTemp] = useState(0)
   const [currentWind, setCurrentWind] = useState(0)
   const [humidity, setHumidity] = useState(0)
@@ -45,7 +43,7 @@ const WeatherWidget = ({ text, weatherData, zoom }: WeatherWidgetProps) => {
 
   //Rotate focus for widgets on small screens
   useInterval(() => {
-    if(zoom && zoom < 6) {
+    if (zoom && zoom < 6) {
       const zIndex = Math.floor(Math.random() * 10)
       setZIndex(zIndex)
     }

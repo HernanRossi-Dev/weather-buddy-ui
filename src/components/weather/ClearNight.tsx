@@ -3,7 +3,7 @@ import { WeatherComponentProps } from '../../interfaces/Weather'
 import '../../styles/Weather.scss'
 
 // Credit for base css weather animation goes to Tuan Hoang https://codepen.io/code4food
-export const ClearNight = ({ height, width }: WeatherComponentProps) => {
+export const ClearNight = ({ height, width }: WeatherComponentProps): JSX.Element => {
   return (
     <svg style={{ height: `${height}px`, width: `${width}px` }} viewBox="0 0 220 220">
       <g className="moon-body">

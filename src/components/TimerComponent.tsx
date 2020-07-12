@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Typography } from '@material-ui/core'
+import { Card, CardContent, Typography } from '@material-ui/core'
 import moment from 'moment-timezone'
 import React, { useEffect, useState } from 'react'
 import { TimerCard } from '../styles/StyledComponents'
@@ -8,7 +8,7 @@ interface TimerProps {
   lat: number
   lng: number
 }
-export const TimerComponent = (props: TimerProps) => {
+export const TimerComponent = (props: TimerProps): JSX.Element => {
   const [time, setTime] = useState('00:00:00')
   const [date, setDate] = useState('Mon Jan 1')
 
@@ -37,7 +37,7 @@ export const TimerComponent = (props: TimerProps) => {
             <strong>{date}</strong><br />
             <strong>{time}</strong>
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: '10px', marginBottom:'-10px' }}>
+          <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: '10px', marginBottom: '-10px' }}>
             Made by Hernan Rossi 2020.
           </Typography>
         </CardContent>

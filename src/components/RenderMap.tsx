@@ -23,11 +23,11 @@ const mapOptions = {
   panControl: false,
   draggableCursor: 'default',
 }
-export const RenderMap = ({ zoom, center, weatherData }: MapProps) => {
+export const RenderMap = ({ zoom, center, weatherData }: MapProps): JSX.Element => {
 
   const API_KEY = process.env.REACT_APP_MAPS_API_URL || ''
   const loading = () => {
-    if (!weatherData) return <div/>
+    if (!weatherData) return <div />
     return (
       weatherData.map((cityWeather, index) => {
         return (
@@ -53,7 +53,7 @@ export const RenderMap = ({ zoom, center, weatherData }: MapProps) => {
         defaultZoom={zoom}
         draggable={false}
         options={mapOptions}
-        distanceToMouse={(x, y) => 0}
+        distanceToMouse={() => 0}
       >
         {loading()}
         <TimerComponent lat={lat} lng={lng} />

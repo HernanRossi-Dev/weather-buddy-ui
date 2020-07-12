@@ -44,18 +44,18 @@ function useWindowSize() {
   return size;
 }
 
-export const MapContainer = () => {
+export const MapContainer = (): JSX.Element => {
   const { state, dispatch } = useAppState()
   const classes = useStyles()
   const [loading, setLoading] = useState(true)
   const [weatherData, setWeatherData] = useState<Array<IWeatherData> | undefined>(undefined)
 
   const [isDesktop, setDesktop] = useState(window.innerWidth > 1450);
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
 
   useEffect(() => {
     setDesktop(width > 1450)
-  },[width]);
+  }, [width]);
 
   useEffect(() => {
     setLoading(true)

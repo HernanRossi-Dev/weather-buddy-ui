@@ -6,7 +6,7 @@ export interface WeatherMap {
   [key: string]: JSX.Element
 }
 
-export const setHeight = (height: number, width: number) => (mainDetails: IWeatherMain) => {
+export const setHeight = (height: number, width: number) => (mainDetails: IWeatherMain): JSX.Element => {
   const weatherMap: WeatherMap = {
     'Clear': <Sunny height={height} width={width} />,
     'Clouds': <Cloudy height={height} width={width} />,

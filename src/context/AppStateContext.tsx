@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext, useEffect, useRef } from "react"
+import React, { createContext, useReducer, useContext, useEffect } from "react"
 import axios from 'axios'
 import { AppState } from "../interfaces/ContextInterface"
 import { Action } from "../types/AppContextTypes"
@@ -36,7 +36,7 @@ export interface AppStateContextProps {
   dispatch: React.Dispatch<Action>
 }
 
-export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
+export const AppStateProvider = ({ children }: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const persistedState = localStorage.getItem("state")
   let localState = appData
   if (persistedState) {
@@ -89,6 +89,6 @@ export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
   )
 }
 
-export const useAppState = () => {
+export const useAppState = (): AppStateContextProps => {
   return useContext(AppStateContext)
 }
