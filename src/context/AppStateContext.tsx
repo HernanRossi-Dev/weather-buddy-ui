@@ -80,7 +80,7 @@ export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
       payload: currentIndex
     })
     //Poll every 10 seconds
-  }, 20000);
+  }, 10000);
 
   return (
     <AppStateContext.Provider value={{ state, dispatch }} >

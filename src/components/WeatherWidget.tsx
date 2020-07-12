@@ -6,20 +6,25 @@ import { Typography } from '@material-ui/core'
 import { WeatherCard } from '../styles/StyledComponents'
 import { IWeatherCurrent, IWeatherMain } from '../interfaces/Weather'
 import { setHeight } from './weather/WeatherElement'
+import { useAppState } from '../context/AppStateContext'
+import { useInterval } from '../utils/UseInterval'
 
 interface WeatherWidgetProps {
   text: string
   lat?: number
   lng?: number
   weatherData: IWeatherCurrent
+  zoom?: number
 }
 
-const WeatherWidget = ({ text, weatherData }: WeatherWidgetProps) => {
+const WeatherWidget = ({ text, weatherData, zoom }: WeatherWidgetProps) => {
+  const { state } = useAppState()
   const [currentTemp, setCurrentTemp] = useState(0)
   const [currentWind, setCurrentWind] = useState(0)
   const [humidity, setHumidity] = useState(0)
   const [currentMain, setCurrentMain] = useState<IWeatherMain | null>(null)
   const [icon, setIcon] = useState<JSX.Element | null>(null)
+  const [zIndex, setZIndex] = useState(1)
 
   useEffect(() => {
     const currTemp: number = parseFloat((weatherData.temp - 273.15).toPrecision(3))
@@ -38,8 +43,18 @@ const WeatherWidget = ({ text, weatherData }: WeatherWidgetProps) => {
     setCurrentMain(weatherData.weather[0])
   }, [weatherData])
 
+  //Rotate focus for widgets on small screens
+  useInterval(() => {
+    if(zoom && zoom < 6) {
+      const zIndex = Math.floor(Math.random() * 10)
+      setZIndex(zIndex)
+    }
+    //Poll every 5 seconds
+  }, 5000);
+
+
   return (
-    <WeatherCard>
+    <WeatherCard zIndex={zIndex}>
       <Card>
         <CardHeader
           avatar={

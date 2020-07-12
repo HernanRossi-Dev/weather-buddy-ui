@@ -12,20 +12,27 @@ export const StyledSideContainer = styled.div`
   width: 100%;
 `
 
-export const StyledMapContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  margin: auto;
+interface WeatherCardDynaProps {
+  zIndex?: number
+}
+
+export const WeatherCardDynaProps = styled.div<WeatherCardDynaProps>`
+  z-index: ${props => (props.zIndex ? props.zIndex : 1)};
 `
-export const WeatherCard = styled.div`
-  width: 210px;
+export const WeatherCard = styled(WeatherCardDynaProps)`
   height: 68px;
+  width: 210px;
   background: white;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   border-radius: 5px 5px 0 0;
   position: relative;
   left: -100px;
   top: -100px;
+`
+export const StyledMapContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  margin: auto;
 `
 export const TimerCard = styled.div`
   width: 220px;

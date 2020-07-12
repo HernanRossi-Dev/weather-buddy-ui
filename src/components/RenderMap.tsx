@@ -37,6 +37,7 @@ export const RenderMap = ({ zoom, center, weatherData }: MapProps) => {
             text={cityWeather.name}
             key={index}
             weatherData={cityWeather.current}
+            zoom={zoom}
           />
         )
       }
